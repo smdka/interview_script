@@ -834,5 +834,7 @@ letterCounts.forEach((letter, count) -> System.out.println(letter + ": " + count
 ### Вторая задача
 
 Необходимо провести code-review
+https://codeshare.io/8XzedE
 
+Ответ:
 https://codeshare.io/WLmkoM
