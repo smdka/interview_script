@@ -792,7 +792,8 @@ Apache Pulsar
 
 Топики и очереди - это два фундаментальных понятия в брокерах сообщений.
 
-**Очередь** - это структура данных, в которой сообщения хранятся в порядке их поступления. Когда сообщение отправляется в
+**Очередь** - это структура данных, в которой сообщения хранятся в порядке их поступления. Когда сообщение отправляется
+в
 очередь, оно добавляется в конец очереди. Когда потребитель хочет получить сообщение из очереди, оно извлекается из
 начала очереди. Очереди обычно используются для обработки сообщений в порядке их поступления.
 
@@ -887,14 +888,18 @@ SOAP (Simple Object Access Protocol) - это протокол обмена да
 
 Есть список слов, мы хотим вывести число включений каждой буквы
 
-`List<String> items = Arrays.asList("Илья", "Антон", "Никита");`
+``` Java
+List<String> items = Arrays.asList("Илья", "Антон", "Никита");
+```
 
 Ожидаемый ответ:
 
-`Map<Character, Long> letterCounts = items.stream()
-.flatMap(s -> s.chars().mapToObj(c -> (char) c))
-.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-letterCounts.forEach((letter, count) -> System.out.println(letter + ": " + count));`
+``` Java
+Map<Character, Long> letterCounts = items.stream()
+                                         .flatMap(s -> s.chars().mapToObj(c -> (char) c))
+                                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+letterCounts.forEach((letter, count) -> System.out.println(letter + ": " + count));
+```
 
 ### Вторая задача
 
@@ -903,3 +908,36 @@ https://codeshare.io/8XzedE
 
 Ответ:
 https://codeshare.io/WLmkoM
+
+### Третья задача
+
+Написать SQL-запрос. У вас есть две таблицы:
+
+employee — сотрудники компании
+* id
+* department_id
+* work_start_date
+* name
+* salary
+
+department — отделы, в которых работают сотрудники
+* id
+* name
+* lead_id — ID руководителя отдела
+
+Нужно написать такой SQL-запрос, который выведет id и имя сотрудников, работающих в компании с лета 2021 года, не
+привязанных к отделам и получающих зарплату меньше 100 000 рублей.
+
+Ожидаемый ответ:
+
+``` SQL
+SELECT
+  e.id,
+  e.name
+FROM employee e
+LEFT JOIN department d ON d.id = e.department_id
+WHERE
+  e.work_start_date >= '2021-06-01' AND
+  e.salary < 100000 AND
+  d.id IS NULL
+```
